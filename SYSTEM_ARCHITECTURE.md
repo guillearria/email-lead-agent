@@ -4,6 +4,8 @@
 
 The Winncom Lead Agent is designed as a modular, scalable system that processes emails from Gmail, classifies them, extracts relevant information, and facilitates human review. This document outlines the system architecture, including components, interactions, and data flow.
 
+This architecture document complements the [project overview](README.md) and [API contracts](API_CONTRACTS.md) by providing detailed technical specifications for implementation.
+
 ## System Components
 
 The system consists of the following major components:
@@ -80,6 +82,9 @@ The system consists of the following major components:
 - Gmail API client
 - Background task processing (Celery)
 
+**Related API Endpoints**:
+- See [Gmail Integration API](API_CONTRACTS.md#gmail-integration-api) and [Email Processing API](API_CONTRACTS.md#email-processing-api)
+
 ### 2. Classification Engine
 
 **Purpose**: Analyzes email content to determine if it's a lead or information request.
@@ -96,6 +101,9 @@ The system consists of the following major components:
 - Rule-based classification system (initial MVP)
 - Natural Language Processing libraries
 
+**Related API Endpoints**:
+- See [Classification API](API_CONTRACTS.md#classification-api)
+
 ### 3. Information Extraction Service
 
 **Purpose**: Extracts structured data from emails to facilitate response generation.
@@ -111,6 +119,9 @@ The system consists of the following major components:
 - Named Entity Recognition (NER)
 - Regular expressions for pattern matching
 - Structured data extraction libraries
+
+**Related API Endpoints**:
+- See [Information Extraction API](API_CONTRACTS.md#information-extraction-api)
 
 ### 4. Data Storage Layer
 
@@ -135,6 +146,59 @@ The system consists of the following major components:
 - Data retention policies
 - Performance optimization
 
+**Database Schema (Core Tables)**:
+
+1. **users**
+   - id (PK)
+   - email
+   - name
+   - password_hash
+   - role
+   - created_at
+   - last_login
+
+2. **gmail_accounts**
+   - id (PK)
+   - email
+   - access_token (encrypted)
+   - refresh_token (encrypted)
+   - connected_at
+   - last_sync
+   - status
+
+3. **emails**
+   - id (PK)
+   - account_id (FK to gmail_accounts)
+   - gmail_id
+   - thread_id
+   - subject
+   - sender_name
+   - sender_email
+   - received_at
+   - body_text
+   - body_html
+   - status
+   - created_at
+   - updated_at
+
+4. **email_classifications**
+   - id (PK)
+   - email_id (FK to emails)
+   - category
+   - subcategory
+   - confidence
+   - classified_at
+   - classified_by (algorithm or user_id)
+
+5. **extracted_information**
+   - id (PK)
+   - email_id (FK to emails)
+   - contact_info (JSONB)
+   - product_interests (JSONB)
+   - questions (JSONB)
+   - urgency
+   - extracted_at
+
 ### 5. Web Frontend
 
 **Purpose**: Provides the user interface for human reviewers.
@@ -153,6 +217,14 @@ The system consists of the following major components:
 - Responsive design for mobile access
 - Real-time updates (WebSockets)
 
+**Key Screens**:
+1. Login/Authentication
+2. Email Dashboard
+3. Email Detail View
+4. Classification Review
+5. Account Management
+6. System Configuration
+
 ### 6. Authentication & Authorization Service
 
 **Purpose**: Manages user authentication and access control.
@@ -168,6 +240,9 @@ The system consists of the following major components:
 - JWT (JSON Web Tokens)
 - OAuth 2.0
 - Role-based permission system
+
+**Related API Endpoints**:
+- See [Authentication API](API_CONTRACTS.md#authentication-api)
 
 ## Data Flow
 
@@ -191,26 +266,14 @@ The system consists of the following major components:
 
 ## API Interfaces
 
-### Email Processing API
+The system exposes several API interfaces for internal and external communication. For detailed API specifications, including request/response formats and error handling, see the [API Contracts document](API_CONTRACTS.md).
 
-- `POST /api/emails/fetch`: Trigger email fetching process
-- `GET /api/emails`: Retrieve processed emails with pagination
-- `GET /api/emails/{id}`: Get specific email details
-- `PUT /api/emails/{id}/status`: Update email processing status
-
-### Classification API
-
-- `POST /api/classify`: Submit email for classification
-- `GET /api/classification/{id}`: Get classification results
-- `POST /api/classification/{id}/feedback`: Submit feedback on classification
-
-### User Management API
-
-- `POST /api/auth/login`: User login
-- `POST /api/auth/logout`: User logout
-- `GET /api/users`: Get user list (admin only)
-- `POST /api/users`: Create new user (admin only)
-- `PUT /api/users/{id}`: Update user details
+Key API categories include:
+- [Authentication API](API_CONTRACTS.md#authentication-api)
+- [Gmail Integration API](API_CONTRACTS.md#gmail-integration-api)
+- [Email Processing API](API_CONTRACTS.md#email-processing-api)
+- [Classification API](API_CONTRACTS.md#classification-api)
+- [Information Extraction API](API_CONTRACTS.md#information-extraction-api)
 
 ## Deployment Architecture
 
@@ -274,4 +337,8 @@ The modular architecture allows for future enhancements:
 2. **Multi-channel Support**: Expand beyond Gmail to other communication channels
 3. **Advanced Analytics**: Add business intelligence features
 4. **Integration Layer**: Connect with additional external systems
-5. **Automated Response Generation**: Implement AI-powered response drafting 
+5. **Automated Response Generation**: Implement AI-powered response drafting
+
+## Implementation Roadmap
+
+For the implementation plan and project phases, refer to the [Project Phases](README.md#project-phases) section in the README document. 

@@ -4,6 +4,14 @@
 
 The Winncom Lead Agent is an automated email processing system designed to monitor a Gmail inbox, classify incoming emails as leads or information requests, generate appropriate responses, and forward them to human agents for review before sending.
 
+## Documentation Structure
+
+This project's documentation is organized into the following files:
+
+1. **README.md** (this file): Project overview, requirements, and implementation plan
+2. **[SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md)**: Detailed system architecture and component design
+3. **[API_CONTRACTS.md](API_CONTRACTS.md)**: API endpoint specifications and data formats
+
 ## MVP Focus
 
 For the initial Minimum Viable Product (MVP), we will focus on:
@@ -102,6 +110,8 @@ Later phases will incorporate response generation, knowledge base integration, a
 - **Deployment**: Docker containers, cloud hosting (AWS/GCP)
 - **CI/CD**: GitHub Actions for continuous integration and deployment
 
+For a detailed view of how these components interact, see the [System Architecture](SYSTEM_ARCHITECTURE.md) document.
+
 ## Detailed MVP Specifications
 
 ### Gmail API Integration
@@ -110,6 +120,8 @@ Later phases will incorporate response generation, knowledge base integration, a
 - Implement webhook or polling mechanism to detect new emails
 - Store email metadata and content securely
 - Handle rate limiting and API quotas appropriately
+
+See the [API Contracts](API_CONTRACTS.md#gmail-integration-api) for detailed endpoint specifications.
 
 ### Lead Classification System
 - Implement rule-based classification with the following categories:
@@ -125,6 +137,8 @@ Later phases will incorporate response generation, knowledge base integration, a
   - Presence of specific product mentions
   - Question patterns and request language
 
+See the [Classification API](API_CONTRACTS.md#classification-api) for related endpoints.
+
 ### Information Extraction
 - Extract and structure the following data points:
   - Contact information (name, email, phone if available)
@@ -134,6 +148,8 @@ Later phases will incorporate response generation, knowledge base integration, a
   - Urgency indicators
   - Preferred contact method if specified
 
+See the [Information Extraction API](API_CONTRACTS.md#information-extraction-api) for related endpoints.
+
 ### Data Storage
 - Secure database for storing:
   - Email metadata
@@ -141,6 +157,8 @@ Later phases will incorporate response generation, knowledge base integration, a
   - Extracted information
   - Processing status
   - Audit logs
+
+For database schema details, refer to the [Data Storage Layer](SYSTEM_ARCHITECTURE.md#4-data-storage-layer) section.
 
 ## Project Phases
 
@@ -192,6 +210,7 @@ Later phases will incorporate response generation, knowledge base integration, a
    - Confirm technology stack choices
    - Create system architecture diagram
    - Define API contracts between components
+   - ✅ See [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) and [API_CONTRACTS.md](API_CONTRACTS.md)
 
 2. **Set Up Development Environment**
    - Initialize repository with basic project structure
@@ -202,13 +221,39 @@ Later phases will incorporate response generation, knowledge base integration, a
    - Create authentication flow
    - Develop email fetching mechanism
    - Build secure storage for email data
+   - Follow the [Gmail Integration API](API_CONTRACTS.md#gmail-integration-api) specifications
 
 4. **Develop Classification Prototype**
    - Implement rule-based classification system
    - Create test suite with sample emails
    - Measure and iterate on classification accuracy
+   - Implement the [Classification API](API_CONTRACTS.md#classification-api)
 
 5. **Design Basic UI**
    - Create wireframes for dashboard
    - Implement minimal viable interface
    - Test usability with stakeholders
+
+## Glossary
+
+**Lead**: A potential sales opportunity identified from an email, typically from a new or existing customer expressing interest in Winncom's computer products or services.
+
+**Information Request**: An email inquiry seeking specific information about products, services, or company details, but not necessarily indicating immediate purchase intent.
+
+**Classification**: The process of categorizing incoming emails as leads, information requests, or other categories based on content analysis.
+
+**Information Extraction**: The process of identifying and extracting structured data (like contact information, product interests, etc.) from unstructured email text.
+
+**OAuth 2.0**: An authorization framework that enables third-party applications to obtain limited access to a user's account on an HTTP service, used for Gmail API integration.
+
+**Human Review**: The process where a human agent reviews automatically classified emails and generated responses before they are sent to ensure accuracy and appropriateness.
+
+**Rule-based Classification**: A classification approach that uses predefined rules and patterns to categorize emails, as opposed to machine learning-based approaches.
+
+**API (Application Programming Interface)**: A set of defined rules that allow different applications to communicate with each other, used throughout the system for component interactions.
+
+**JWT (JSON Web Token)**: A compact, URL-safe means of representing claims to be transferred between two parties, used for authentication in the system.
+
+**Webhook**: A method for an application to provide other applications with real-time information, potentially used for detecting new emails in Gmail.
+
+**NLP (Natural Language Processing)**: A field of artificial intelligence that helps computers understand, interpret, and manipulate human language, used in email classification and information extraction.

@@ -2,17 +2,21 @@
 
 This document defines the API contracts for the Winncom Lead Agent MVP, focusing on Gmail integration and lead identification. These contracts specify the endpoints, request/response formats, authentication requirements, and error handling for each service.
 
+This API contracts document complements the [project overview](README.md) and [system architecture](SYSTEM_ARCHITECTURE.md) by providing detailed specifications for all API endpoints.
+
 ## Table of Contents
 
 1. [Authentication API](#authentication-api)
-2. [Email Processing API](#email-processing-api)
-3. [Classification API](#classification-api)
-4. [Information Extraction API](#information-extraction-api)
-5. [Email Management API](#email-management-api)
+2. [Gmail Integration API](#gmail-integration-api)
+3. [Email Processing API](#email-processing-api)
+4. [Classification API](#classification-api)
+5. [Information Extraction API](#information-extraction-api)
 6. [Common Response Formats](#common-response-formats)
 7. [Error Handling](#error-handling)
 
 ## Authentication API
+
+*Implemented by the [Authentication & Authorization Service](SYSTEM_ARCHITECTURE.md#6-authentication--authorization-service)*
 
 ### POST /api/auth/login
 
@@ -111,6 +115,8 @@ Returns the current authenticated user's information.
 
 ## Gmail Integration API
 
+*Implemented by the [Email Processing Service](SYSTEM_ARCHITECTURE.md#1-email-processing-service)*
+
 ### POST /api/gmail/authorize
 
 Initiates the OAuth 2.0 flow for Gmail authorization.
@@ -182,6 +188,8 @@ Disconnects a Gmail account.
 - 404 Not Found: Account not found
 
 ## Email Processing API
+
+*Implemented by the [Email Processing Service](SYSTEM_ARCHITECTURE.md#1-email-processing-service)*
 
 ### POST /api/emails/fetch
 
@@ -360,6 +368,8 @@ Updates the status of an email.
 
 ## Classification API
 
+*Implemented by the [Classification Engine](SYSTEM_ARCHITECTURE.md#2-classification-engine)*
+
 ### POST /api/classify
 
 Submits an email for classification.
@@ -438,6 +448,8 @@ Submits feedback on a classification result.
 - 404 Not Found: Email not found
 
 ## Information Extraction API
+
+*Implemented by the [Information Extraction Service](SYSTEM_ARCHITECTURE.md#3-information-extraction-service)*
 
 ### POST /api/extract
 
@@ -569,4 +581,10 @@ All API errors follow a consistent format:
 - 409 Conflict: Request conflicts with current state
 - 422 Unprocessable Entity: Validation error
 - 429 Too Many Requests: Rate limit exceeded
-- 500 Internal Server Error: Unexpected server error 
+- 500 Internal Server Error: Unexpected server error
+
+## Implementation Notes
+
+For details on how these APIs are implemented within the system architecture, refer to the [System Architecture document](SYSTEM_ARCHITECTURE.md).
+
+For information about the project timeline and implementation phases, see the [Project Phases](README.md#project-phases) section in the README. 
