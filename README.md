@@ -90,7 +90,7 @@ Later phases will incorporate response generation, knowledge base integration, a
 
 ## Technology Stack (Proposed)
 
-- **Backend**: Python (Flask/FastAPI) for email processing, classification, and response generation
+- **Backend**: Python with FastAPI for email processing, classification, and response generation
 - **Gmail Integration**: Gmail API with OAuth 2.0 authentication
 - **Classification**: 
   - MVP: Rule-based system with keyword matching and basic NLP
