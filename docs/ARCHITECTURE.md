@@ -1,21 +1,18 @@
-# Winncom Lead Agent - System Architecture
+# System Architecture
+
+## Executive Summary
+
+The Winncom Lead Agent is designed as a modular, scalable system that processes emails from Gmail, classifies them, extracts relevant information, and facilitates human review. The architecture follows modern best practices with clear separation of concerns, API-driven interactions, and a focus on maintainability and extensibility.
 
 ## Overview
 
-The Winncom Lead Agent is designed as a modular, scalable system that processes emails from Gmail, classifies them, extracts relevant information, and facilitates human review. This document outlines the system architecture, including components, interactions, and data flow.
-
-This architecture document complements the [project overview](README.md) and [API contracts](API_CONTRACTS.md) by providing detailed technical specifications for implementation.
-
-## System Components
-
-The system consists of the following major components:
-
-1. **Email Processing Service**
-2. **Classification Engine**
-3. **Information Extraction Service**
-4. **Data Storage Layer**
-5. **Web Frontend**
-6. **Authentication & Authorization Service**
+The system consists of six major components:
+1. **Email Processing Service**: Connects to Gmail and manages the email processing pipeline
+2. **Classification Engine**: Analyzes email content to determine if it's a lead or information request
+3. **Information Extraction Service**: Extracts structured data from emails
+4. **Data Storage Layer**: Stores all system data securely and efficiently
+5. **Web Frontend**: Provides the user interface for human reviewers
+6. **Authentication & Authorization Service**: Manages user authentication and access control
 
 ## Architecture Diagram (Text Representation)
 
@@ -82,8 +79,10 @@ The system consists of the following major components:
 - Gmail API client
 - Background task processing (Celery)
 
-**Related API Endpoints**:
-- See [Gmail Integration API](API_CONTRACTS.md#gmail-integration-api) and [Email Processing API](API_CONTRACTS.md#email-processing-api)
+**Implementation Status**: 
+- ✅ OAuth 2.0 authentication flow
+- ✅ Email fetching mechanism
+- ⏳ Background task processing (planned)
 
 ### 2. Classification Engine
 
@@ -97,12 +96,12 @@ The system consists of the following major components:
 - Learning from human feedback (future enhancement)
 
 **Technologies**:
-- Hugging Face classification models
 - Rule-based classification system (initial MVP)
 - Natural Language Processing libraries
+- Hugging Face classification models (future enhancement)
 
-**Related API Endpoints**:
-- See [Classification API](API_CONTRACTS.md#classification-api)
+**Implementation Status**: 
+- ⏳ Not yet implemented
 
 ### 3. Information Extraction Service
 
@@ -120,8 +119,8 @@ The system consists of the following major components:
 - Regular expressions for pattern matching
 - Structured data extraction libraries
 
-**Related API Endpoints**:
-- See [Information Extraction API](API_CONTRACTS.md#information-extraction-api)
+**Implementation Status**: 
+- ⏳ Not yet implemented
 
 ### 4. Data Storage Layer
 
@@ -199,6 +198,12 @@ The system consists of the following major components:
    - urgency
    - extracted_at
 
+**Implementation Status**: 
+- ✅ Database models defined
+- ✅ SQLAlchemy ORM setup
+- ✅ Alembic migrations configured
+- ⏳ Redis caching (planned)
+
 ### 5. Web Frontend
 
 **Purpose**: Provides the user interface for human reviewers.
@@ -225,6 +230,9 @@ The system consists of the following major components:
 5. Account Management
 6. System Configuration
 
+**Implementation Status**: 
+- ⏳ Not yet implemented
+
 ### 6. Authentication & Authorization Service
 
 **Purpose**: Manages user authentication and access control.
@@ -241,8 +249,11 @@ The system consists of the following major components:
 - OAuth 2.0
 - Role-based permission system
 
-**Related API Endpoints**:
-- See [Authentication API](API_CONTRACTS.md#authentication-api)
+**Implementation Status**: 
+- ✅ JWT authentication
+- ✅ Password hashing
+- ✅ User model and API
+- ⏳ Role-based permissions (basic implementation)
 
 ## Data Flow
 
@@ -263,17 +274,6 @@ The system consists of the following major components:
    User → Web Frontend → Authentication Service → 
    Data Storage → Web Frontend
    ```
-
-## API Interfaces
-
-The system exposes several API interfaces for internal and external communication. For detailed API specifications, including request/response formats and error handling, see the [API Contracts document](API_CONTRACTS.md).
-
-Key API categories include:
-- [Authentication API](API_CONTRACTS.md#authentication-api)
-- [Gmail Integration API](API_CONTRACTS.md#gmail-integration-api)
-- [Email Processing API](API_CONTRACTS.md#email-processing-api)
-- [Classification API](API_CONTRACTS.md#classification-api)
-- [Information Extraction API](API_CONTRACTS.md#information-extraction-api)
 
 ## Deployment Architecture
 
@@ -314,21 +314,6 @@ The system will be deployed using Docker containers orchestrated with Docker Com
 - Input validation to prevent injection attacks
 - Principle of least privilege for all components
 
-## Monitoring and Logging
-
-- Centralized logging system
-- Performance metrics collection
-- Alerting for system issues
-- Audit trail for all actions
-- Error tracking and reporting
-
-## Disaster Recovery
-
-- Regular database backups
-- Automated recovery procedures
-- Redundancy for critical components
-- Documented recovery process
-
 ## Future Expansion
 
 The modular architecture allows for future enhancements:
@@ -337,8 +322,4 @@ The modular architecture allows for future enhancements:
 2. **Multi-channel Support**: Expand beyond Gmail to other communication channels
 3. **Advanced Analytics**: Add business intelligence features
 4. **Integration Layer**: Connect with additional external systems
-5. **Automated Response Generation**: Implement AI-powered response drafting
-
-## Implementation Roadmap
-
-For the implementation plan and project phases, refer to the [Project Phases](README.md#project-phases) section in the README document. 
+5. **Automated Response Generation**: Implement AI-powered response drafting 

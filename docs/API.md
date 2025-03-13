@@ -1,24 +1,34 @@
-# Winncom Lead Agent - API Contracts
+# API Documentation
 
-This document defines the API contracts for the Winncom Lead Agent MVP, focusing on Gmail integration and lead identification. These contracts specify the endpoints, request/response formats, authentication requirements, and error handling for each service.
+## Executive Summary
 
-This API contracts document complements the [project overview](README.md) and [system architecture](SYSTEM_ARCHITECTURE.md) by providing detailed specifications for all API endpoints.
+The Winncom Lead Agent exposes a RESTful API that enables secure access to email processing, classification, and management features. The API follows modern best practices with JWT authentication, consistent error handling, and clear request/response formats.
 
-## Table of Contents
+## API Overview
 
-1. [Authentication API](#authentication-api)
-2. [Gmail Integration API](#gmail-integration-api)
-3. [Email Processing API](#email-processing-api)
-4. [Classification API](#classification-api)
-5. [Information Extraction API](#information-extraction-api)
-6. [Common Response Formats](#common-response-formats)
-7. [Error Handling](#error-handling)
+The API is organized into the following categories:
+1. **Authentication**: User login, logout, and token management
+2. **Gmail Integration**: Connect Gmail accounts and fetch emails
+3. **Email Processing**: Process and manage emails
+4. **Classification**: Classify emails as leads or information requests
+5. **Information Extraction**: Extract structured data from emails
 
-## Authentication API
+## Base URL
 
-*Implemented by the [Authentication & Authorization Service](SYSTEM_ARCHITECTURE.md#6-authentication--authorization-service)*
+- **Development**: `http://localhost:8000/api`
+- **Production**: `https://your-domain.com/api`
 
-### POST /api/auth/login
+## Authentication
+
+All API endpoints (except authentication endpoints) require a valid JWT token in the Authorization header:
+
+```
+Authorization: Bearer <your_token>
+```
+
+### Authentication Endpoints
+
+#### POST /auth/login
 
 Authenticates a user and returns a JWT token.
 
@@ -46,11 +56,7 @@ Authenticates a user and returns a JWT token.
 }
 ```
 
-**Error Responses:**
-- 401 Unauthorized: Invalid credentials
-- 422 Unprocessable Entity: Validation error
-
-### POST /api/auth/logout
+#### POST /auth/logout
 
 Logs out the current user by invalidating their token.
 
@@ -68,10 +74,7 @@ Logs out the current user by invalidating their token.
 }
 ```
 
-**Error Responses:**
-- 401 Unauthorized: Invalid token
-
-### POST /api/auth/refresh
+#### POST /auth/refresh
 
 Refreshes an expired access token.
 
@@ -91,10 +94,7 @@ Refreshes an expired access token.
 }
 ```
 
-**Error Responses:**
-- 401 Unauthorized: Invalid refresh token
-
-### GET /api/auth/me
+#### GET /auth/me
 
 Returns the current authenticated user's information.
 
@@ -110,14 +110,11 @@ Returns the current authenticated user's information.
 }
 ```
 
-**Error Responses:**
-- 401 Unauthorized: Not authenticated
+## Gmail Integration
 
-## Gmail Integration API
+### Gmail Integration Endpoints
 
-*Implemented by the [Email Processing Service](SYSTEM_ARCHITECTURE.md#1-email-processing-service)*
-
-### POST /api/gmail/authorize
+#### POST /gmail/authorize
 
 Initiates the OAuth 2.0 flow for Gmail authorization.
 
@@ -128,7 +125,7 @@ Initiates the OAuth 2.0 flow for Gmail authorization.
 }
 ```
 
-### POST /api/gmail/callback
+#### POST /gmail/callback
 
 Handles the OAuth 2.0 callback from Google.
 
@@ -150,11 +147,7 @@ Handles the OAuth 2.0 callback from Google.
 }
 ```
 
-**Error Responses:**
-- 400 Bad Request: Invalid authorization code
-- 500 Internal Server Error: Failed to connect to Gmail
-
-### GET /api/gmail/accounts
+#### GET /gmail/accounts
 
 Lists all connected Gmail accounts.
 
@@ -173,7 +166,7 @@ Lists all connected Gmail accounts.
 }
 ```
 
-### DELETE /api/gmail/accounts/{account_id}
+#### DELETE /gmail/accounts/{account_id}
 
 Disconnects a Gmail account.
 
@@ -184,14 +177,7 @@ Disconnects a Gmail account.
 }
 ```
 
-**Error Responses:**
-- 404 Not Found: Account not found
-
-## Email Processing API
-
-*Implemented by the [Email Processing Service](SYSTEM_ARCHITECTURE.md#1-email-processing-service)*
-
-### POST /api/emails/fetch
+#### POST /gmail/emails/fetch
 
 Triggers the email fetching process for connected Gmail accounts.
 
@@ -213,30 +199,11 @@ Triggers the email fetching process for connected Gmail accounts.
 }
 ```
 
-**Error Responses:**
-- 400 Bad Request: Invalid parameters
-- 404 Not Found: Account not found
+## Email Management
 
-### GET /api/emails/tasks/{task_id}
+### Email Endpoints
 
-Checks the status of an email fetching task.
-
-**Response (200 OK):**
-```json
-{
-  "task_id": "task123",
-  "status": "completed",
-  "progress": 100,
-  "emails_processed": 42,
-  "emails_fetched": 38,
-  "completed_at": "2023-01-02T00:04:30Z"
-}
-```
-
-**Error Responses:**
-- 404 Not Found: Task not found
-
-### GET /api/emails
+#### GET /emails
 
 Retrieves a paginated list of processed emails.
 
@@ -281,7 +248,7 @@ Retrieves a paginated list of processed emails.
 }
 ```
 
-### GET /api/emails/{email_id}
+#### GET /emails/{email_id}
 
 Retrieves detailed information about a specific email.
 
@@ -339,10 +306,7 @@ Retrieves detailed information about a specific email.
 }
 ```
 
-**Error Responses:**
-- 404 Not Found: Email not found
-
-### PUT /api/emails/{email_id}/status
+#### PUT /emails/{email_id}/status
 
 Updates the status of an email.
 
@@ -362,15 +326,11 @@ Updates the status of an email.
 }
 ```
 
-**Error Responses:**
-- 400 Bad Request: Invalid status
-- 404 Not Found: Email not found
+## Classification
 
-## Classification API
+### Classification Endpoints
 
-*Implemented by the [Classification Engine](SYSTEM_ARCHITECTURE.md#2-classification-engine)*
-
-### POST /api/classify
+#### POST /classification/classify
 
 Submits an email for classification.
 
@@ -389,11 +349,7 @@ Submits an email for classification.
 }
 ```
 
-**Error Responses:**
-- 404 Not Found: Email not found
-- 409 Conflict: Email already classified
-
-### GET /api/classification/{email_id}
+#### GET /classification/{email_id}
 
 Retrieves classification results for an email.
 
@@ -419,10 +375,7 @@ Retrieves classification results for an email.
 }
 ```
 
-**Error Responses:**
-- 404 Not Found: Email or classification not found
-
-### POST /api/classification/{email_id}/feedback
+#### POST /classification/{email_id}/feedback
 
 Submits feedback on a classification result.
 
@@ -444,14 +397,11 @@ Submits feedback on a classification result.
 }
 ```
 
-**Error Responses:**
-- 404 Not Found: Email not found
+## Information Extraction
 
-## Information Extraction API
+### Information Extraction Endpoints
 
-*Implemented by the [Information Extraction Service](SYSTEM_ARCHITECTURE.md#3-information-extraction-service)*
-
-### POST /api/extract
+#### POST /extraction/extract
 
 Submits an email for information extraction.
 
@@ -470,10 +420,7 @@ Submits an email for information extraction.
 }
 ```
 
-**Error Responses:**
-- 404 Not Found: Email not found
-
-### GET /api/extraction/{email_id}
+#### GET /extraction/{email_id}
 
 Retrieves extracted information for an email.
 
@@ -507,38 +454,6 @@ Retrieves extracted information for an email.
     "indicators": ["need information soon", "upcoming project"]
   },
   "preferred_contact_method": "email"
-}
-```
-
-**Error Responses:**
-- 404 Not Found: Email or extraction not found
-
-## Common Response Formats
-
-### Pagination
-
-All paginated endpoints follow this format:
-
-```json
-{
-  "data": [...],
-  "pagination": {
-    "total": 152,
-    "page": 1,
-    "per_page": 20,
-    "total_pages": 8
-  }
-}
-```
-
-### Success Response
-
-Standard success responses include:
-
-```json
-{
-  "message": "Operation completed successfully",
-  "data": {...}
 }
 ```
 
@@ -583,8 +498,10 @@ All API errors follow a consistent format:
 - 429 Too Many Requests: Rate limit exceeded
 - 500 Internal Server Error: Unexpected server error
 
-## Implementation Notes
+## Implementation Status
 
-For details on how these APIs are implemented within the system architecture, refer to the [System Architecture document](SYSTEM_ARCHITECTURE.md).
-
-For information about the project timeline and implementation phases, see the [Project Phases](README.md#project-phases) section in the README. 
+- ✅ Authentication API
+- ✅ Gmail Integration API (basic functionality)
+- ⏳ Email Management API (partially implemented)
+- ⏳ Classification API (not yet implemented)
+- ⏳ Information Extraction API (not yet implemented) 
