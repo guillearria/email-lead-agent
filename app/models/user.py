@@ -20,6 +20,7 @@ class User(Base):
     last_login = Column(DateTime, nullable=True)
     
     # Relationships
+    # Use string for relationship target to avoid circular imports
     gmail_accounts = relationship("GmailAccount", back_populates="user")
     
     def __repr__(self):

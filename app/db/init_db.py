@@ -1,8 +1,9 @@
 import logging
-
 from sqlalchemy.orm import Session
 
-from app.db.base import Base, engine
+# Import base to ensure all models are loaded
+from app.db.base_class import Base as BaseClass
+from app.db.base import Base, engine, SessionLocal
 from app.models.user import User
 from app.services.auth import get_password_hash
 
@@ -40,8 +41,6 @@ def main() -> None:
     """
     Run database initialization.
     """
-    from app.db.base import SessionLocal
-    
     db = SessionLocal()
     try:
         init_db(db)
