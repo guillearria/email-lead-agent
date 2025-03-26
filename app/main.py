@@ -7,7 +7,7 @@ from app.api.v1.api import api_router
 # Create FastAPI app
 app = FastAPI(
     title=settings.APP_NAME,
-    description="API for Winncom Lead Agent",
+    description="API for Email Lead Agent",
     version="0.1.0",
 )
 
@@ -23,7 +23,7 @@ app.add_middleware(
 @app.get("/")
 async def root():
     """Root endpoint for health check."""
-    return {"message": "Welcome to Winncom Lead Agent API", "status": "healthy"}
+    return {"message": "Welcome to Email Lead Agent API", "status": "healthy"}
 
 @app.get("/health")
 async def health_check():

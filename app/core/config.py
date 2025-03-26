@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     """Application settings."""
     
     # Application settings
-    APP_NAME: str = "Winncom Lead Agent"
+    APP_NAME: str = "Email Lead Agent"
     ENVIRONMENT: str = "development"
     DEBUG: bool = True
     LOG_LEVEL: str = "INFO"

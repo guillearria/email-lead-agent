@@ -1,1 +1,1 @@
-# Test package for Winncom Lead Agent
+# Test package for Email Lead Agent
