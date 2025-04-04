@@ -26,11 +26,11 @@ The Email Lead Agent is an automated email processing system designed to monitor
 ## Key Features
 
 - **Gmail Integration**: Seamlessly connects with Gmail to monitor and process incoming emails
-- **Email Classification**: Automatically categorizes emails as sales leads or information requests
+- **Email Classification**: Categorizes emails as sales leads or information requests
 - **Information Extraction**: Identifies and extracts key details from incoming emails
 - **Response Generation**: Creates tailored responses based on email content and available knowledge base
 - **Human Review Interface**: Provides an easy-to-use interface for reviewing and approving generated responses
-- **Web-Based Access**: Accessible via browser tab or potentially as a browser extension
+- **Web-Based Access**: Accessible via any browser on any device
 
 ## Quick Start Guide
 
