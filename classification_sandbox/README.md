@@ -6,6 +6,11 @@ This directory contains a collection of Python scripts for classifying emails as
 
 Email classification is a powerful tool for lead management, allowing businesses to automatically identify and prioritize potential customers from their email inboxes. This sandbox provides practical implementations ranging from simple ML models to advanced transformer-based approaches.
 
+## Requirements
+
+- **Python 3.11** is recommended for this project (there may be compatibility issues with Python 3.13+)
+- Libraries: pandas, scikit-learn, matplotlib, Flask, transformers (see requirements.txt for complete list)
+
 ## Scripts Included
 
 1. **01_train_basic_classifier.py**: Trains a basic email classifier using scikit-learn and TF-IDF features with a Naive Bayes model.
@@ -21,8 +26,12 @@ Email classification is a powerful tool for lead management, allowing businesses
 ### 1. Create a Virtual Environment
 
 ```bash
-# Create virtual environment
-python -m venv venv
+# Create virtual environment with Python 3.11 (recommended)
+# Windows
+py -3.11 -m venv venv
+
+# macOS/Linux
+python3.11 -m venv venv
 
 # Activate virtual environment (Windows)
 venv\Scripts\activate
@@ -34,6 +43,10 @@ source venv/bin/activate
 ### 2. Install Dependencies
 
 ```bash
+# Upgrade pip for good measure
+pip install --upgrade pip
+
+# Install all requirements
 pip install -r requirements.txt
 ```
 
@@ -99,9 +112,15 @@ Here are some ways to extend this project:
 4. **Add auto-responses**: Automatically respond to different email types
 5. **Build an API**: Create a REST API for classification services
 
+## Troubleshooting
+
+- **Installation issues**: If you encounter errors installing requirements, make sure you're using Python 3.11, which has been tested with all dependencies.
+- **Package conflicts**: If specific packages fail to install, try installing them individually.
+- **Python 3.13+ issues**: Newer Python versions may have issues with some dependencies due to the removal of `distutils` from the standard library.
+
 ## Documentation
 
-For more information on email classification, see the comprehensive `CLASSIFICATION_BASICS.md` document.
+For more information on email classification, see the comprehensive `CLASSIFICATION.md` document.
 
 ## License
 
